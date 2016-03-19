@@ -38,4 +38,12 @@ public class UsersDataSet implements Serializable {
     public void updatePassword(String password) {
         this.password = password;
     }
+
+    public String getLogin () {
+        return login;
+    }
+
+    public String getPassword () {
+        return password;
+    }
 }
