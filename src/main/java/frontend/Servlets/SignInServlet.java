@@ -1,7 +1,8 @@
 package frontend.Servlets;
 
-import frontend.AccountProfile;
-import frontend.UserProfile;
+import dbService.DBService;
+import dbService.DBServiceImpl;
+import dbService.dataSets.UsersDataSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,11 +18,10 @@ public class SignInServlet  extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        AccountProfile accountProfile = new AccountProfile();
-        UserProfile userProfile = accountProfile.getUserDataBase(login);
-        if (userProfile.getPassword().equals(password)) {
-            PrintWriter pw = response.getWriter();
-            pw.println("Authorized: " + login);
-        }
+        DBService dbService = new DBServiceImpl();
+        UsersDataSet usersDataSet = dbService.getUserProfile(login);
+        PrintWriter pw = response.getWriter();
+        pw.println("Authorized: " + usersDataSet.getLogin());
+        pw.println(usersDataSet.getPassword());
     }
 }

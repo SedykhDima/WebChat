@@ -5,10 +5,11 @@
 </head>
 <body>
 
-<form action="/signup" method="POST">
+<form method="POST">
 	Логин: <input type="text" name="login"/>
 	Пароль: <input type="password" name="password"/>
-	<input type="submit" value="Войти">
+	<input type="submit" formaction="/signup" value="Регистрация">
+	<input type="submit" formaction="/signin" value="Войти">
 </form>
 
 </body>

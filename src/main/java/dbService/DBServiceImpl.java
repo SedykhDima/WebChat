@@ -15,7 +15,7 @@ public class DBServiceImpl implements DBService {
 
     private final SessionFactory SESSION_FACTORY;
     public DBServiceImpl() {
-        Configuration configuration = getMySqlConfiguration();
+        Configuration configuration = getH2Configuration();
         SESSION_FACTORY = createSessionFactory(configuration);
     }
 
@@ -33,10 +33,24 @@ public class DBServiceImpl implements DBService {
         return configuration;
     }
 
+    private Configuration getH2Configuration() {
+        Configuration configuration = new Configuration();
+        configuration.addAnnotatedClass(UsersDataSet.class);
+
+        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        configuration.setProperty("hibernate.connection.driver_class", "org.h2.Driver");
+        configuration.setProperty("hibernate.connection.url", "jdbc:h2:./h2db");
+        configuration.setProperty("hibernate.connection.username", "trully");
+        configuration.setProperty("hibernate.connection.password", "trully");
+        configuration.setProperty("hibernate.show_sql", HIBERNATE_SHOW_SQL);
+        configuration.setProperty("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
+        return configuration;
+    }
+
     public UsersDataSet getUserProfile(String login) {
         Session session = SESSION_FACTORY.openSession();
         UsersDAO dao = new UsersDAO(session);
-        UsersDataSet dataSet = dao.getUser(login);
+        UsersDataSet dataSet = dao.getUserProfile(login);
         session.close();
         return dataSet;
     }
