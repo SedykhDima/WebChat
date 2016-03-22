@@ -23,5 +23,6 @@ public class SignUpServlet extends HttpServlet {
         accountProfile.pushDataBase(login, accountProfile);
         PrintWriter pw = response.getWriter();
         pw.println("Registred");
+        response.sendRedirect("chat.html");
     }
 }

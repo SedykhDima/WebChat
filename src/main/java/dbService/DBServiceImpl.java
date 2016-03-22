@@ -10,13 +10,21 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class DBServiceImpl implements DBService {
+    private static DBServiceImpl dbService = null;
     private static final String HIBERNATE_SHOW_SQL = "true";
-    private static final String HIBERNATE_HBM2DDL_AUTO = "update";
+    private static final String HIBERNATE_HBM2DDL_AUTO = "create";
 
     private final SessionFactory SESSION_FACTORY;
-    public DBServiceImpl() {
+    private DBServiceImpl() {
         Configuration configuration = getH2Configuration();
         SESSION_FACTORY = createSessionFactory(configuration);
+    }
+
+    public static DBServiceImpl newInstance() {
+        if (dbService == null) {
+            dbService = new DBServiceImpl();
+        }
+        return dbService;
     }
 
     private Configuration getMySqlConfiguration() {

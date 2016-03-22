@@ -16,6 +16,7 @@ public class Server {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(new SignUpServlet()), "/signup");
         context.addServlet(new ServletHolder(new SignInServlet()), "/signin");
+        context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setResourceBase("Authorization");

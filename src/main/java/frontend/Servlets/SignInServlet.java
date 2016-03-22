@@ -18,10 +18,23 @@ public class SignInServlet  extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        DBService dbService = new DBServiceImpl();
-        UsersDataSet usersDataSet = dbService.getUserProfile(login);
-        PrintWriter pw = response.getWriter();
-        pw.println("Authorized: " + usersDataSet.getLogin());
-        pw.println(usersDataSet.getPassword());
+        DBService dbService = DBServiceImpl.newInstance();
+        UsersDataSet usersDataSet = null;
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter printWriter = response.getWriter();
+        try {
+            usersDataSet = dbService.getUserProfile(login);
+            if (password.equals(usersDataSet.getPassword())) {
+                printWriter.println("Authorized: " + usersDataSet.getLogin());
+                printWriter.println(usersDataSet.getPassword());
+                response.sendRedirect("chat.html");
+            }
+            else printWriter.println("Пароль введен неверно");
+            response.sendRedirect("index.html");
+        }
+        catch (NullPointerException e) {
+            printWriter.println("Пользователь не существует");
+            response.sendRedirect("index.html");
+        }
     }
 }

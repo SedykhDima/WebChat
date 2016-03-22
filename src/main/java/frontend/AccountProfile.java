@@ -18,12 +18,12 @@ public class AccountProfile {
     }
 
     public void pushDataBase(String login, AccountProfile accountProfile) {
-        DBService dbService = new DBServiceImpl();
+        DBService dbService = DBServiceImpl.newInstance();
         dbService.addUser(login, accountProfile.getUserProfile(login).getPassword());
     }
 
     public UserProfile getUserDataBase(String login) {
-        DBService dbService = new DBServiceImpl();
+        DBService dbService = DBServiceImpl.newInstance();
         return new UserProfile(dbService.getUserProfile(login).getLogin(), dbService.getUserProfile(login).getPassword());
     }
 }
