@@ -1,7 +1,7 @@
 package frontend.Servlets;
 
-import frontend.AccountProfile;
-import frontend.UserProfile;
+import dbService.DBService;
+import dbService.DBServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +18,15 @@ public class SignUpServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        AccountProfile accountProfile = new AccountProfile();
-        accountProfile.addUser(login, new UserProfile(login, password));
-        accountProfile.pushDataBase(login, accountProfile);
-        PrintWriter pw = response.getWriter();
-        pw.println("Registred");
+        DBService dbService = DBServiceImpl.newInstance();
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter printWriter = response.getWriter();
+        try {
+            dbService.addUser(login, password);
+        }
+        catch (Exception e) {
+            printWriter.println("Пользователь уже зарегистрирован");
+        }
         response.sendRedirect("chat.html");
     }
 }

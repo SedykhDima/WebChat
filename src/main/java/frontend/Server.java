@@ -1,5 +1,6 @@
 package frontend;
 
+import chat.WebSocketChatServlet;
 import frontend.Servlets.SignInServlet;
 import frontend.Servlets.SignUpServlet;
 import org.eclipse.jetty.server.Handler;
